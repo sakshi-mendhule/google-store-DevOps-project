@@ -1,1 +1,19 @@
-# Phones deployment configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phones-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: phones
+  template:
+    metadata:
+      labels:
+        app: phones
+    spec:
+      containers:
+      - name: phones
+        image: <YOUR_ECR_URL>/electronics:latest
+        ports:
+        - containerPort: 80
