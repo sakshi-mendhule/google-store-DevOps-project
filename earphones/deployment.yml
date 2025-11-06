@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: earphones
-        image: <YOUR_ECR_URL>/earphones:latest
+        image: <placeholder>
         ports:
         - containerPort: 80
