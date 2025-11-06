@@ -10,7 +10,7 @@ env:
   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com
   SERVICES: "electronics phones computers earphones"
   K8S_NAMESPACE: default
-  CLUSTER_NAME: your-eks-cluster-name
+  CLUSTER_NAME: abinash
 
 permissions:
   contents: write   # Allow committing updated files back to the repo
