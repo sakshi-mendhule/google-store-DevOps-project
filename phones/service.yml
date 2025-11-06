@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: phones-service
 spec:
-  type: ClusterIP
   selector:
     app: phones
   ports:
-  - port: 80
+  - protocol: TCP
+    port: 80
     targetPort: 80
