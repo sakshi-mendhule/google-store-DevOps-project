@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: phones
-        image: 049061799945.dkr.ecr.ap-northeast-1.amazonaws.com/google-store-phones:8db23e433e2a6442a82dc4e269c1fc8875a31709
+        image: 049061799945.dkr.ecr.ap-northeast-1.amazonaws.com/google-store-phones:1436a63-20251107040527
         ports:
         - containerPort: 80
