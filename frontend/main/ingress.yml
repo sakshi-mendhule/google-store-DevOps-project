@@ -1,58 +1,54 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: shopping-site-ingress
-  namespace: google
+  name: shop-ingress
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing       # 👈 Public ALB
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - http:
+    - host: shop.example.com
+      http:
         paths:
-          # 🏠 Main frontend (homepage)
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: main-frontend-service
+                name: main-service
                 port:
                   number: 80
-
-          # 📱 Phones page
+          - path: /electronics
+            pathType: Prefix
+            backend:
+              service:
+                name: electronics-service
+                port:
+                  number: 80
           - path: /phones
             pathType: Prefix
             backend:
               service:
-                name: phones-frontend-service
+                name: phones-service
                 port:
                   number: 80
-
-          # 💻 Computers page
           - path: /computers
             pathType: Prefix
             backend:
               service:
-                name: computers-frontend-service
+                name: computers-service
                 port:
                   number: 80
-
-          # 🎧 Earphones page
           - path: /earphones
             pathType: Prefix
             backend:
               service:
-                name: earphones-frontend-service
+                name: earphones-service
                 port:
                   number: 80
-
-          # 💳 Payment page
           - path: /payment
             pathType: Prefix
             backend:
               service:
-                name: payment-frontend-service
+                name: payment-service
                 port:
                   number: 80
+
