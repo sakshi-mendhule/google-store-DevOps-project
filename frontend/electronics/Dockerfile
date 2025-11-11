@@ -1,11 +1,13 @@
-# Use lightweight NGINX base image
 FROM nginx:alpine
 
-# Copy all frontend files into NGINX html folder
-COPY . /usr/share/nginx/html
+# remove any default files
+RUN rm -rf /usr/share/nginx/html/*
 
-# Expose port 80 for HTTP traffic
+# copy only static assets
+COPY index.html style.css script.js /usr/share/nginx/html/
+
+# copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
-
-# Start NGINX server
 CMD ["nginx", "-g", "daemon off;"]
