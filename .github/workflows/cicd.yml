@@ -4,13 +4,12 @@ on:
   push:
     branches:
       - main
-    # ❌ Removed paths-ignore so commits push again
-    # ✅ We'll control looping in another way
 
 env:
   AWS_REGION: ap-northeast-1
   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com
-  FRONTEND_SERVICES: "main phones computers earphones payment"
+  # ✅ Added "electronics" here
+  FRONTEND_SERVICES: "main electronics phones computers earphones payment"
   BACKEND_SERVICE: "backend"
 
 permissions:
@@ -21,13 +20,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout
       - name: 🧾 Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GIT_PAT }}
 
-      # 2️⃣ Configure AWS
       - name: 🔧 Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -35,11 +32,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # 3️⃣ Login to ECR
       - name: 📦 Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      # 4️⃣ Build & Push Docker images
       - name: 🛠 Build and Push Docker Images
         run: |
           set -e
@@ -63,7 +58,6 @@ jobs:
             docker build -t $IMAGE_URI $FOLDER
             docker push $IMAGE_URI
 
-            # Update deployment.yml with new image
             sed -i "s|image:.*|image: $IMAGE_URI|g" "$FOLDER/deployment.yml"
           done
 
@@ -81,7 +75,6 @@ jobs:
 
           sed -i "s|image:.*|image: $IMAGE_URI|g" "$FOLDER/backend-deployment.yml"
 
-      # 5️⃣ Commit updated image references
       - name: 🔄 Commit updated YAML files
         run: |
           git config --global user.name "GitHub Actions"
@@ -89,16 +82,13 @@ jobs:
 
           git add frontend/**/deployment.yml backend/backend-deployment.yml
 
-          # Commit once with skip ci
           git commit -m "🔄 Update image tags after build [skip ci]" || echo "⚠️ No YAML changes"
           git push origin main || echo "⚠️ No changes to push"
 
-      # ✅ Stop loop if commit was made by GitHub Actions
       - name: 🧠 Skip loop if commit was automated
         if: contains(github.event.head_commit.message, '[skip ci]')
         run: echo "Skipping re-triggered build due to [skip ci] commit"
 
-      # 6️⃣ SSH Deploy to EC2
       - name: 🚀 Deploy on EC2
         if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
         uses: appleboy/ssh-action@v1.2.0
