@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: computers-service
+  name: earphones-service
   labels:
-    app: computers
+    app: earphones
 spec:
   type: ClusterIP
   selector:
-    app: computers
+    app: earphones
   ports:
     - protocol: TCP
       port: 80
