@@ -81,10 +81,11 @@ spec:
                 port:
                   number: 80
 
-          - path: /googlepay
+          - path: /googlegrocery
             pathType: Prefix
             backend:
               service:
                 name: googlegrocery-service
                 port:
                   number: 80
+
