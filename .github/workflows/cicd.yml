@@ -10,7 +10,7 @@ env:
   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com
 
   # ✅ Added googleclothes
-  FRONTEND_SERVICES: "main electronics phones computers earphones googlemusic googlepay googleclothes"
+  FRONTEND_SERVICES: "main electronics phones computers earphones googlemusic googlepay googleclothes googlegrocery"
 
   BACKEND_SERVICE: "backend"
 
